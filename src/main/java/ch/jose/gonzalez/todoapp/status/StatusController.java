@@ -38,14 +38,14 @@ public class StatusController {
     }
 
     @PostMapping("api/status")
-    @RolesAllowed(Roles.Teamleiter)
+    @RolesAllowed(Roles.Mitarbeiter)
     public ResponseEntity<Status> newStatus(@Valid @RequestBody Status status) {
         Status savedStatus = statusService.insertStatus(status);
         return new ResponseEntity<>(savedStatus, HttpStatus.OK);
     }
 
     @PutMapping("api/status/{id}")
-    @RolesAllowed(Roles.Teamleiter)
+    @RolesAllowed(Roles.Mitarbeiter)
     public ResponseEntity<Status> updateStatus(@Valid @RequestBody Status status, @PathVariable Long id) {
         Status savedStatus = statusService.updateStatus(id, status);
         return new ResponseEntity<>(savedStatus, HttpStatus.OK);

@@ -41,7 +41,7 @@ class RestControllerTests {
     @BeforeAll
     void setup() {
         this.taskRepository.save(new Task("Meeting", "Vorbereitung meeting", LocalDate.of(2023, 4, 30), LocalDate.of(2023, 5, 5)));
-        this.taskRepository.save(new Task("WebApp", "WebApp fertig machen", LocalDate.of(2023, 4, 27), LocalDate.of(2023, 5, 27)));
+        this.taskRepository.save(new Task("WebApp", "WebApp fertig machen", LocalDate.of(2023, 4, 27), LocalDate.of(2023, 5, 30)));
     }
 
     @Test
@@ -53,7 +53,7 @@ class RestControllerTests {
         api.perform(get("/api/task").header("Authorization", "Bearer " + accessToken)
                         .with(csrf()))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("BL 123")));
+                .andExpect(content().string(containsString("Meeting")));
     }
 
     private String obtainAccessToken() {
@@ -63,11 +63,11 @@ class RestControllerTests {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        String body = "client_id=todapp" +
-                "grant_type=password&" +
-                "scope=openid profile roles offline_access&" +
-                "username=user" +
-                "password=user";
+        String body = "client_id=todoapp" +
+                "&grant_type=password" +
+                "&scope=openid profile roles offline_access" +
+                "&username=user" +
+                "&password=user";
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
 
