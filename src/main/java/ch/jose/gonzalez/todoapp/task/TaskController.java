@@ -26,6 +26,13 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
 
+    @GetMapping("api/task")
+    @RolesAllowed(Roles.Mitarbeiter)
+    public ResponseEntity<List<Task>> all() {
+        List<Task> result = taskService.getAllTasks();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PostMapping("/api/task/{id}")
     @RolesAllowed(Roles.Teamleiter)
     public Task createTask(@RequestBody Task task) {

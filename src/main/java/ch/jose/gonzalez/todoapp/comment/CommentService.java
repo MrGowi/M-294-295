@@ -27,12 +27,13 @@ public class CommentService {
     }
 
     public Comment updateComment(Long id, Comment comment) {
-        return commentRepository.findById(id)
-        .map(commentOrig -> {
-            commentOrig.setName(comment.getName());
-            return commentRepository.save(commentOrig);
-        })
-        .orElseGet(() -> commentRepository.save(comment));
+        Comment existingComment = commentRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(id, Comment.class ));
+    
+        existingComment.setName(comment.getName());
+        existingComment.setComment_text(comment.getComment_text());
+    
+        return commentRepository.save(existingComment);
     }
 
     public void deleteComment(Long id) {

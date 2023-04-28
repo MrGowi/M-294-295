@@ -26,13 +26,15 @@ public class StatusService {
         return statusRepository.save(status);
     }
 
+
+
     public Status updateStatus(Long id, Status status) {
-        return statusRepository.findById(id)
-        .map(statusOrig -> {
-            statusOrig.setTaskStatus(status.getTaskStatus());
-            return statusRepository.save(statusOrig);
-        })
-        .orElseGet(() -> statusRepository.save(status));
+        Status existingStatus = statusRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(id, Status.class ));
+
+        existingStatus.setTaskStatus(status.getTaskStatus());
+
+        return statusRepository.save(existingStatus);
     }
 
     public void deleteStatus (Long id) {

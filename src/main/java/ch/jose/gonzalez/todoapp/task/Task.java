@@ -43,4 +43,9 @@ public class Task {
         this.taskEndDate = taskEndDate;
     }
 
+
+    public Task() {
+        // Default constructor
+    }
+
 }
