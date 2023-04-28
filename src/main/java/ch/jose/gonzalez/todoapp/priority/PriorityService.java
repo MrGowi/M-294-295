@@ -28,13 +28,13 @@ public class PriorityService {
         return priorityRepository.save(priority);
     }
 
-    public Priority updatePriority(Long id, Priority  priority) {
-        return priorityRepository.findById(id)
-        .map(priorityOrig -> {
-            priorityOrig.setTaskPriority(priority.getTaskPriority());
-            return priorityRepository.save(priorityOrig);
-        })
-        .orElseGet(() ->  priorityRepository.save(priority));
+    public Priority updatePriority(Long id, Priority priority) {
+        Priority existingPriority = priorityRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(id, Priority.class));
+    
+        existingPriority.setTaskPriority(priority.getTaskPriority());
+    
+        return priorityRepository.save(existingPriority);
     }
 
     public void deletePriority (Long id) {

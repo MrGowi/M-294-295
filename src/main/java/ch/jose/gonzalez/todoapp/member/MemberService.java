@@ -27,12 +27,13 @@ public class MemberService {
     }
 
     public Member updateMember(Long id, Member member) {
-        return memberRepository.findById(id)
-        .map(memberOrig -> {
-            memberOrig.setName(member.getName());
-            return memberRepository.save(memberOrig);
-        })
-        .orElseGet(() -> memberRepository.save(member));
+        Member existingMember = memberRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(id, Member.class ));
+    
+        existingMember.setName(member.getName());
+        existingMember.setEmail(member.getEmail());
+    
+        return memberRepository.save(existingMember);
     }
 
     public void deleteMember(Long id) {

@@ -19,6 +19,10 @@ public class TaskService {
             .orElseThrow(() -> new EntityNotFoundException(id, Task.class ));
     }
 
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
     public Task createTask(Task task) {
         return taskRepository.save(task);
     }
